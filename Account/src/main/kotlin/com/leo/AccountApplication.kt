@@ -1,4 +1,4 @@
-package com.leo.account
+package com.leo
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

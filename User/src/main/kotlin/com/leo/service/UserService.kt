@@ -21,7 +21,12 @@ class UserService {
 
         if (opt.isPresent) throw BankException("Service.USERNAME_EXISTS")
 
-        userRepo.save(ModelMapper().map(user, User::class.java))
+        val toSave = ModelMapper().map(user, User::class.java)
+        toSave.username = user.username
+
+        println(toSave)
+
+        userRepo.save(toSave)
 
     }
 

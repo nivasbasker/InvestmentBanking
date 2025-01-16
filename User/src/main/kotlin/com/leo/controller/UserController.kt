@@ -26,8 +26,8 @@ class UserController {
     @Autowired
     lateinit var service: UserService
 
-    @PostMapping("/register")
-    fun resisterUser(@RequestBody @Valid user: UserDTO): ResponseEntity<String> {
+    @PostMapping("register")
+    fun registerUser(@Valid @RequestBody user: UserDTO): ResponseEntity<String> {
 
         service.registerUser(user);
 
@@ -35,8 +35,8 @@ class UserController {
         return ResponseEntity(response, HttpStatus.OK)
     }
 
-    @RequestMapping("/login")
-    fun loginUser(@RequestParam @Pattern(regexp = "[A-Za-z]+") userName : String, @RequestParam @Pattern(regexp = "[A-Za-z0-9]{8,20}")password : String): ResponseEntity<String> {
+    @RequestMapping("login")
+    fun loginUser(@RequestParam @Pattern(regexp = "[A-Za-z]+") userName : String, @RequestParam @Pattern(regexp = "[A-Za-z0-9]{8,20}") password : String): ResponseEntity<String> {
 
         service.login(userName,password);
 
