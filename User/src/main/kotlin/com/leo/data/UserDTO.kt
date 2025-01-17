@@ -4,24 +4,26 @@ import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.Pattern
 import lombok.Data
+import lombok.NoArgsConstructor
 
-@Data
 data class UserDTO(
 
-    val id: Int,
+    var id: Int?,
 
-    @Pattern(regexp = "[A-Za-z]+",message = "{user.username.invalid}")
-    val username: String,
+    @field:Pattern(regexp = "[A-Za-z]+", message = "{user.username.invalid}")
+    var username: String,
 
-    @Pattern(regexp = "[A-Za-z0-9]{8,}",message = "{user.password.invalid}")
-    val password: String,
+    @field:Pattern(regexp = "[A-Za-z0-9]{8,}", message = "{user.password.invalid}")
+    var password: String,
 
-    @Email(message = "{user.email.invalid}")
-    val email: String,
+    @field:Email(message = "{user.email.invalid}")
+    var email: String,
 
-    @Pattern(regexp = "[A-Za-z]+",message = "{user.fname.invalid}")
-    val firstName: String,
+    @field:Pattern(regexp = "[A-Z][a-z\\s]+", message = "{user.fname.invalid}")
+    var firstName: String,
 
-    @NotEmpty(message = "{user.lname.invalid}")
-    val lastName: String
-)
+    @field:NotEmpty(message = "{user.lname.invalid}")
+    var lastName: String
+) {
+    constructor() : this(null, "", "", "", "", "")
+}

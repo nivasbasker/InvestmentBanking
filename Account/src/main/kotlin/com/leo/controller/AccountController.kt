@@ -1,6 +1,7 @@
-package controller
+package com.leo.controller
 
-import data.Account
+import com.leo.data.Account
+import com.leo.data.AccountDTO
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.env.Environment
 import org.springframework.http.HttpStatus
@@ -10,10 +11,14 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import service.AccountService
+import com.leo.service.AccountService
+import jakarta.validation.constraints.Min
+import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.RequestParam
 
 @RequestMapping("accounts")
 @RestController
+@Validated
 class AccountController {
     @Autowired
     private lateinit var accountService: AccountService
@@ -22,16 +27,15 @@ class AccountController {
     private lateinit var environment: Environment
 
     @PostMapping()
-    fun createAccount(account: Account): ResponseEntity<String> {
-        accountService.createAccount(account)
-
-        val response = environment.getProperty("API.REGISTER_SUCCESS")
+    fun createAccount(@RequestParam userId: Int, @Min(value = 1) @RequestParam balance: Int): ResponseEntity<String> {
+        val num = accountService.createAccount(userId, balance)
+        val response = environment.getProperty("API.REGISTER_SUCCESS") + " with account number : $num"
         return ResponseEntity(response, HttpStatus.CREATED)
 
     }
 
     @GetMapping("/{id}")
-    fun getAccount(@PathVariable id: Int): ResponseEntity<Account> {
+    fun getAccount(@PathVariable id: Int): ResponseEntity<AccountDTO> {
 
         return ResponseEntity(accountService.getAccount(id), HttpStatus.OK)
     }

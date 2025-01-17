@@ -1,5 +1,6 @@
 package com.leo.controller
 
+import com.leo.data.LoginDTO
 import com.leo.data.UserDTO
 import com.leo.service.UserService
 import jakarta.validation.Valid
@@ -9,11 +10,7 @@ import org.springframework.core.env.Environment
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("users")
@@ -29,19 +26,24 @@ class UserController {
     @PostMapping("register")
     fun registerUser(@Valid @RequestBody user: UserDTO): ResponseEntity<String> {
 
-        service.registerUser(user);
+        val id = service.registerUser(user);
 
-        val response = environment.getProperty("API.REGISTER_SUCCESS")
-        return ResponseEntity(response, HttpStatus.OK)
+        val response = environment.getProperty("API.REGISTER_SUCCESS") + "with userId : $id"
+        return ResponseEntity(response, HttpStatus.CREATED)
     }
 
-    @RequestMapping("login")
-    fun loginUser(@RequestParam @Pattern(regexp = "[A-Za-z]+") userName : String, @RequestParam @Pattern(regexp = "[A-Za-z0-9]{8,20}") password : String): ResponseEntity<String> {
+    @PostMapping("login")
+    fun loginUser(@RequestBody @Valid loginDTO: LoginDTO): ResponseEntity<String> {
 
-        service.login(userName,password);
+        service.login(loginDTO);
 
         val response = environment.getProperty("API.LOGIN_SUCCESS")
         return ResponseEntity(response, HttpStatus.OK)
+    }
+
+    @GetMapping("exist/{id}")
+    fun isUser(@PathVariable id: Int): ResponseEntity<Boolean> {
+        return ResponseEntity(service.isUser(id), HttpStatus.OK)
     }
 
 

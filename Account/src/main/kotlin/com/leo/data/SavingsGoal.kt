@@ -1,14 +1,10 @@
-package data
+package com.leo.data
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import jakarta.persistence.*
 import lombok.Data
 import java.time.LocalDate
 
-@Entity
-@Data
+@Entity(name = "savings_goal")
 data class SavingsGoal(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,6 +12,9 @@ data class SavingsGoal(
     var name: String,
     var targetAmount: Int,
     var targetDate: LocalDate,
-    var currentAmount: Int
-) {
-}
+    var currentAmount: Int,
+
+//    @ManyToOne
+//    @JoinColumn(name = "account_id", referencedColumnName = "id")
+//    var account: Account
+)

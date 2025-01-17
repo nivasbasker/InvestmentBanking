@@ -1,5 +1,6 @@
 package com.leo.service
 
+import com.leo.data.LoginDTO
 import com.leo.data.User
 import com.leo.data.UserDTO
 import com.leo.repo.UserRepo
@@ -15,27 +16,26 @@ class UserService {
     @Autowired
     lateinit var userRepo: UserRepo
 
-    fun registerUser(user: UserDTO) {
+    fun registerUser(user: UserDTO): Int {
 
         val opt = userRepo.findByUsername(user.username)
 
         if (opt.isPresent) throw BankException("Service.USERNAME_EXISTS")
 
-        val toSave = ModelMapper().map(user, User::class.java)
-        toSave.username = user.username
-
-        println(toSave)
-
-        userRepo.save(toSave)
+        return userRepo.save(ModelMapper().map(user, User::class.java)).id
 
     }
 
-    fun login(userName: String, password: String) {
-        val opt = userRepo.findByUsername(userName)
+    fun login(loginDTO: LoginDTO) {
+        val opt = userRepo.findByUsername(loginDTO.userName)
 
         if (opt.isEmpty) throw BankException("Service.NO_SUCH_USER")
 
-        if (!opt.get().password.equals(password)) throw BankException("Service.INVALID_CRED")
+        if (!opt.get().password.equals(loginDTO.password)) throw BankException("Service.INVALID_CRED")
 
+    }
+
+    fun isUser(id: Int): Boolean {
+        return userRepo.findById(id).isPresent
     }
 }
