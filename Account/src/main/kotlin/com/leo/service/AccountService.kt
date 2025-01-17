@@ -1,9 +1,6 @@
 package com.leo.service
 
-import com.leo.data.Account
-import com.leo.data.AccountDTO
-import com.leo.data.SavingsGoal
-import com.leo.data.SavingsGoalDTO
+import com.leo.data.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import com.leo.repo.AccountRepo
@@ -93,5 +90,18 @@ class AccountService {
 
     fun hasAccount(userId: Int): Boolean {
         return accountRepo.findAllByUserId(userId).isNotEmpty()
+    }
+
+    fun getBalance(accId: Int): Int {
+        return accountRepo.findById(accId).orElseThrow { throw BankException("Service.INVALID_ACC") }.balance
+    }
+
+    @Transactional
+    @Modifying
+    fun updateAccount(dto: TransactDTO) {
+        val ac = accountRepo.findById(dto.accountId).orElseThrow { throw BankException("Service.INVALID_ACC") }
+
+        ac.balance += if (dto.category == TransactionType.DEBIT) -dto.amount else dto.amount
+
     }
 }

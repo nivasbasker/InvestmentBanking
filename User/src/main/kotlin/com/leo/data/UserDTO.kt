@@ -10,19 +10,19 @@ data class UserDTO(
 
     var id: Int?,
 
-    @field:Pattern(regexp = "[A-Za-z]+", message = "{user.username.invalid}")
+    @field:Pattern(regexp = "[A-Za-z]+", message = "user.username.invalid")
     var username: String,
 
-    @field:Pattern(regexp = "[A-Za-z0-9]{8,}", message = "{user.password.invalid}")
+    @field:Pattern(regexp = "[A-Za-z0-9]{8,}", message = "user.password.invalid")
     var password: String,
 
-    @field:Email(message = "{user.email.invalid}")
+    @field:Email(message = "user.email.invalid")
     var email: String,
 
-    @field:Pattern(regexp = "[A-Z][a-z\\s]+", message = "{user.fname.invalid}")
+    @field:Pattern(regexp = "[A-Z][a-z\\s]+", message = "user.fname.invalid")
     var firstName: String,
 
-    @field:NotEmpty(message = "{user.lname.invalid}")
+    @field:NotEmpty(message = "user.lname.invalid")
     var lastName: String
 ) {
     constructor() : this(null, "", "", "", "", "")

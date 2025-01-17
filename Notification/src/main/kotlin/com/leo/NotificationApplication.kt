@@ -1,11 +1,11 @@
-package com.leo.Transaction
+package com.leo
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class TransactionApplication
+class NotificationApplication
 
 fun main(args: Array<String>) {
-	runApplication<TransactionApplication>(*args)
+	runApplication<NotificationApplication>(*args)
 }

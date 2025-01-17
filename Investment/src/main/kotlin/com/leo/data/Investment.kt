@@ -1,14 +1,14 @@
 package com.leo.data
 
 import jakarta.persistence.*
-import org.springframework.data.annotation.Id
 
 @Entity
 data class Investment(
 
-    @jakarta.persistence.Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int,
+    var id: Int?,
+
     var userId: Int,
     @field:Enumerated(EnumType.STRING)
     var type: InvestmentType,

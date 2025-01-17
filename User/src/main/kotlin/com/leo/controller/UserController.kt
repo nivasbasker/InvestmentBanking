@@ -26,7 +26,7 @@ class UserController {
     @PostMapping("register")
     fun registerUser(@Valid @RequestBody user: UserDTO): ResponseEntity<String> {
 
-        val id = service.registerUser(user);
+        val id = service.registerUser(user)
 
         val response = environment.getProperty("API.REGISTER_SUCCESS") + "with userId : $id"
         return ResponseEntity(response, HttpStatus.CREATED)
@@ -35,7 +35,7 @@ class UserController {
     @PostMapping("login")
     fun loginUser(@RequestBody @Valid loginDTO: LoginDTO): ResponseEntity<String> {
 
-        service.login(loginDTO);
+        service.login(loginDTO)
 
         val response = environment.getProperty("API.LOGIN_SUCCESS")
         return ResponseEntity(response, HttpStatus.OK)

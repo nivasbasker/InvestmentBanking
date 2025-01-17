@@ -1,7 +1,7 @@
 package com.leo.controller
 
-import com.leo.data.Account
 import com.leo.data.AccountDTO
+import com.leo.data.TransactDTO
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.env.Environment
 import org.springframework.http.HttpStatus
@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import com.leo.service.AccountService
+import jakarta.validation.Valid
 import jakarta.validation.constraints.Min
 import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 
 @RequestMapping("accounts")
@@ -34,16 +37,26 @@ class AccountController {
 
     }
 
-    @GetMapping("/{id}")
-    fun getAccount(@PathVariable id: Int): ResponseEntity<AccountDTO> {
+    @GetMapping("/{accId}")
+    fun getAccount(@PathVariable accId: Int): ResponseEntity<AccountDTO> {
 
-        return ResponseEntity(accountService.getAccount(id), HttpStatus.OK)
+        return ResponseEntity(accountService.getAccount(accId), HttpStatus.OK)
     }
 
-//    @GetMapping("/{userId}")
-//    fun getAccounts(@PathVariable userId: Int): ResponseEntity<List<AccountDTO>> {
-//        return ResponseEntity(accountService.getAccounts(userId), HttpStatus.OK)
-//    }
+    @GetMapping("/balance/{accId}")
+    fun getBalance(@PathVariable accId: Int): ResponseEntity<Int> {
+
+        return ResponseEntity(accountService.getBalance(accId), HttpStatus.OK)
+    }
+
+    @PutMapping("update")
+    fun updateAccount(@RequestBody @Valid dto: TransactDTO): ResponseEntity<String> {
+
+        accountService.updateAccount(dto)
+
+        val response = environment.getProperty("API.UPDATE_SUCCESS")
+        return ResponseEntity(response, HttpStatus.OK)
+    }
 
     @GetMapping("/check/{userId}")
     fun hasAccount(@PathVariable userId: Int): ResponseEntity<Boolean> {

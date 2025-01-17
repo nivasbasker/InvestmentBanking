@@ -20,12 +20,12 @@ class InvestmentService {
 
     @Modifying
     @Transactional
-    fun startInvestment(investmentDTO: InvestmentDTO) {
-        if (investmentDTO.initialInvestment <= 0) throw BankException("Service.INVALID_INVESTMENT")
+    fun startInvestment(dto: InvestmentDTO) {
+        if (dto.initialInvestment <= 0) throw BankException("Service.INVALID_INVESTMENT")
 
-        if (!investmentClient.isUser(investmentDTO.userId)) throw BankException("Service.NO_SUCH_USER")
+        if (!investmentClient.isUser(dto.userId)) throw BankException("Service.NO_SUCH_USER")
 
-        investmentRepo.save(ModelMapper().map(investmentDTO, Investment::class.java))
+        investmentRepo.save(Investment(null, dto.userId, dto.type, dto.currentValue, dto.initialInvestment))
     }
 
     @Transactional
