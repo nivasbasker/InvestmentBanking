@@ -86,4 +86,12 @@ class AccountService {
 
         savingsRepo.contributeSavings(contribution, id)
     }
+
+    fun getAccounts(userId: Int): List<AccountDTO> {
+        return accountRepo.findAllByUserId(userId).map { ModelMapper().map(it, AccountDTO::class.java) }
+    }
+
+    fun hasAccount(userId: Int): Boolean {
+        return accountRepo.findAllByUserId(userId).isNotEmpty()
+    }
 }

@@ -39,4 +39,16 @@ class AccountController {
 
         return ResponseEntity(accountService.getAccount(id), HttpStatus.OK)
     }
+
+//    @GetMapping("/{userId}")
+//    fun getAccounts(@PathVariable userId: Int): ResponseEntity<List<AccountDTO>> {
+//        return ResponseEntity(accountService.getAccounts(userId), HttpStatus.OK)
+//    }
+
+    @GetMapping("/check/{userId}")
+    fun hasAccount(@PathVariable userId: Int): ResponseEntity<Boolean> {
+        return ResponseEntity(accountService.hasAccount(userId), HttpStatus.OK)
+    }
+
+
 }

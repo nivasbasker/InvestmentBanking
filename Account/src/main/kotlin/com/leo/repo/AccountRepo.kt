@@ -10,6 +10,8 @@ interface AccountRepo : JpaRepository<Account, Int> {
 
 
     @Query("select c.savingsGoal from Account c where c.id = ?1")
-    fun getSavingsGoalById(id : Int) : List<SavingsGoal>
+    fun getSavingsGoalById(id: Int): List<SavingsGoal>
+
+    fun findAllByUserId(userId: Int): List<Account>
 
 }
